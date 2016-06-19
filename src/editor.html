@@ -1,0 +1,53 @@
+<template>
+    <section class="au-animate">
+        <h2>${heading}</h2>
+        <form role="form" submit.delegate="submit()">
+            <div class="form-group">
+                <label for="input-json">JSON:</label>
+                <div>
+                    <textarea class="form-control" id="input-json" rows="10" value.bind="template.jsonEncoded"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="input-json">Url картинки:</label>
+                <input type="text" class="form-control" value.bind="template.image" />
+            </div>
+            <div class="form-group">
+                <label for="editor-json">Редактор:</label>
+                <p class="help-block">Для редактирования элемента кликните по нему</p>
+                <p class="help-block">Для изменения его положения перетащите его мышкой</p>
+                <div style="background-image: url(${template.image}); background-repeat: no-repeat; position: relative;">
+                    <img src="${template.image}" style="visibility: hidden;" />
+                    <require from="./templates/TextElement"></require>
+                    <div repeat.for="text of template.text">
+                        <text-element click.delegate="setActive($index)" data.bind="text"></text-element>
+                    </div>
+                </div>
+            </div>
+            <div show.bind="activeTemplateIndex !== null">
+                <div class="form-group">
+                    <label for="input-json">Текст:</label>
+                    <input type="text" class="form-control" value.bind="template.text[activeTemplateIndex].text" />
+                </div>
+                <div class="form-group">
+                    <label for="input-json">Цвет:</label>
+                    <input type="text" class="form-control" value.bind="template.text[activeTemplateIndex].color" />
+                </div>
+                <div class="form-group">
+                    <label for="input-json">Размер текста(px):</label>
+                    <input type="text" class="form-control" value.bind="template.text[activeTemplateIndex].fontSize" />
+                </div>
+                <div class="form-group">
+                    <label for="input-json">Смещение top(px):</label>
+                    <input type="text" class="form-control" value.bind="template.text[activeTemplateIndex].position.top" />
+                </div>
+                <div class="form-group">
+                    <label for="input-json">Смещение left(px):</label>
+                    <input type="text" class="form-control" value.bind="template.text[activeTemplateIndex].position.left" />
+                </div>
+            </div>
+            <button type="button" click.delegate="addTemplateText()" class="btn btn-success pull-right">Добавить новый</button>
+            <button type="submit" class="btn btn-default pull-right">Сохранить шаблон</button>
+        </form>
+    </section>
+</template>
